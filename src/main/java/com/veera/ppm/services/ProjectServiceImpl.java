@@ -17,10 +17,14 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Autowired
+    EmployeeService employeeService;
+
     @Override
     public ProjectModel saveOrUpdate(ProjectModel project) {
         try {
             project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+            employeeService.createEmployee();
             return mapModel(projectRepository.save(map(project)));
         } catch (Exception e) {
             throw new ProjectIdException("Project ID '" + project.getProjectIdentifier().toUpperCase() + "' is already exists");
